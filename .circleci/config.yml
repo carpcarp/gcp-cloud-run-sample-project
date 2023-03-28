@@ -18,9 +18,7 @@ jobs:
             GCP_PROJECT=circleci-gcf-deployment
             # Deploy command
             gcloud run deploy $FUNCTION_NAME \
-              --entry-point $ENTRYPOINT \
               --runtime nodejs18 \
-              --trigger-http \
               --source ./sample \
               --project $GOOGLE_PROJECT_ID
 workflows:
