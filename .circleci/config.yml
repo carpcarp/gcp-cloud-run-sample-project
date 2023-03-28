@@ -7,24 +7,22 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - run:
-        name: Authorize GCloud Command Line Tool
-        command: >
-          echo $GCP_PROJECT_KEY | base64 --decode | gcloud auth
-          activate-service-account --key-file=-
       - cloudrun/init
       - cloudrun/build:
-          tag: gcr.io/${GOOGLE_PROJECT_ID}/test-${CIRCLE_SHA1}
+          tag: "gcr.io/${GOOGLE_PROJECT_ID}/test-${CIRCLE_SHA1}"
           source: ./sample
       - cloudrun/deploy:
           platform: managed
-          image: gcr.io/${GOOGLE_PROJECT_ID}/test-${CIRCLE_SHA1}
-          service-name: example-service
-          region: us-east1
+          image: "gcr.io/${GOOGLE_PROJECT_ID}/test-${CIRCLE_SHA1}"
+          service-name: "example-service"
+          region: "us-east1"
           unauthenticated: true
       - run:
           name: Test the deployed service
           command: |
+            echo 'export PATH=~$PATH:~/.local/bin' >> $BASH_ENV
+            echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > $HOME/gcloud-service-key.json
+            echo 'export GOOGLE_CLOUD_KEYS=$(cat $HOME/gcloud-service-key.json)' >> $BASH_ENV
             if [ "$(curl -s "$GCP_DEPLOY_ENDPOINT")" != "Hello World!" ]; then
               echo "Result is unexpected"
               exit 1;
