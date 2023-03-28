@@ -21,7 +21,7 @@ jobs:
               --entry-point $ENTRYPOINT \
               --runtime python37 \
               --trigger-http \
-              --source ./src/ \
+              --source ./sample \
               --project $GOOGLE_PROJECT_ID
 workflows:
   version: 2
