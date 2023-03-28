@@ -13,7 +13,7 @@ jobs:
           name: Deploy To Google Cloud Functions
           command: |
             # Variables
-            FUNCTION_NAME=circleci_deployment_example
+            FUNCTION_NAME=circleci-deployment-example
             ENTRYPOINT=main
             GCP_PROJECT=circleci-gcf-deployment
             # Deploy command
