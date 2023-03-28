@@ -20,6 +20,7 @@ jobs:
             gcloud run deploy $FUNCTION_NAME \
               --source ./sample \
               --project $GOOGLE_PROJECT_ID
+              --platform=managed
               --region $GOOGLE_COMPUTE_ZONE
 workflows:
   version: 2
