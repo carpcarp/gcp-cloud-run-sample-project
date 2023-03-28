@@ -10,9 +10,7 @@ jobs:
       - run:
           name: Auth
           command: |
-            echo 'export PATH=~$PATH:~/.local/bin' >> $BASH_ENV
-            echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > $HOME/gcloud-service-key.json
-            echo 'export GOOGLE_CLOUD_KEYS=$(cat $HOME/gcloud-service-key.json)' >> $BASH_ENV
+            echo $GCP_PROJECT_KEY | base64 --decode | gcloud auth activate-service-account --key-file=-
       - cloudrun/init
       - cloudrun/build:
           tag: "gcr.io/${GOOGLE_PROJECT_ID}/test-${CIRCLE_SHA1}"
