@@ -7,6 +7,10 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - run:
+        name: Authorize GCloud Command Line Tool
+        command: |
+          echo $GCLOUD_SERVICE_KEY | base64 --decode | gcloud auth activate-service-account --key-file=-
       - cloudrun/init
       - cloudrun/build:
           tag: "gcr.io/${GOOGLE_PROJECT_ID}/test-${CIRCLE_SHA1}"
@@ -20,9 +24,6 @@ jobs:
       - run:
           name: Test the deployed service
           command: |
-            echo 'export PATH=~$PATH:~/.local/bin' >> $BASH_ENV
-            echo ${GCP_PROJECT_KEY} | base64 --decode --ignore-garbage > $HOME/gcloud-service-key.json
-            echo 'export GOOGLE_CLOUD_KEYS=$(cat $HOME/gcloud-service-key.json)' >> $BASH_ENV
             if [ "$(curl -s "$GCP_DEPLOY_ENDPOINT")" != "Hello World!" ]; then
               echo "Result is unexpected"
               exit 1;
