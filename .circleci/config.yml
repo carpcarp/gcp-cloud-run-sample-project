@@ -4,7 +4,7 @@ orbs:
 jobs:
   build_and_deploy:
     docker:
-      - image: cimg/base:stable
+      - image: google/cloud-sdk
     steps:
       - checkout
       - run:
