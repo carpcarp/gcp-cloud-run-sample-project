@@ -21,7 +21,6 @@ jobs:
               --source ./sample \
               --project $GOOGLE_PROJECT_ID
               --platform=managed
-              --region $GOOGLE_COMPUTE_ZONE
 workflows:
   version: 2
   build-test-and-deploy:
